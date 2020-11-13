@@ -17,6 +17,8 @@ myFunction();
 
 //🚀🚀🚀 ⬇️ 📝 Explanation ⬇️ 📝 🚀🚀🚀:
 
+// the nested function can  access the the variable because of its scope. It's located below the stuff it needs to access.
+
 /* 🚀🚀🚀 Task 2: Counter 🚀🚀🚀 */
 /* Create a function called `summation` that accepts a parameter and uses a counter to return the summation of that number. For example, `summation(4)` should return 10 because 1+2+3+4 is 10. Note, you may use a for loop for this function if you wish */
 function summation(num) {
@@ -144,19 +146,14 @@ console.log(lowPopulationAnimals());
 /* 🦁🦁🦁 Request 4: .reduce() 🦁🦁🦁
   The zoos need to know their total animal population across the United States. Find the total population from all the zoos using the .reduce() method. Remember the reduce method takes two arguments: a callback (which itself takes two args), and an initial value for the count.
   */
-function USApop() {
-  const results = zooAnimals.reduce((populationTotal, item) => populationTotal + item
+function USApop(cb) {
+  let populationTotal = cb.reduce(
+    (sum, currentPopulation) => sum + currentPopulation["population"],
+    0
   );
-  return results;
-
-  // const singleValue = array.reduce(function(accumulator, item){
-
-  // return accumulator + item;
-
-  // },0);
+  return populationTotal;
 }
-
-console.log(USApop());
+console.log(USApop(zooAnimals));
 
 // 🦁🦁🦁 Callbacks 🦁🦁🦁
 /* 🦁🦁🦁 Step 1: Create a higher-order function 🦁🦁🦁
@@ -204,10 +201,10 @@ console.log(consume("Mary", "Poppins", greeting)); // Hello Mary Poppins, nice t
   Create a constructor function named CuboidMaker that accepts properties for length, width, and height which can be initialized as an object
 */
 
-function CuboidMaker(length, width, height) {
-  this.length = length;
-  this.width = width;
-  this.height = height;
+function CuboidMaker(attributes) {
+  this.length = attributes.length;
+  this.width = attributes.width;
+  this.height = attributes.height;
 }
 
 /* 🐴🐴🐴 Step 2: Volume Method 🐴🐴🐴
@@ -249,17 +246,37 @@ console.log(cuboid.surfaceArea()); // 130
 
 // 🦄🦄🦄 Topic 4: Classes 🦄🦄🦄 //
 //🦄🦄🦄 1. Take your prototypes from above and refactor into class syntax. Please rename your class CuboidMakerTwo and your object cuboidTwo 🦄🦄🦄
+
 class CuboidMakerTwo {
-  constructor(cuboidTwo) {
-    (this.length = cuboidTwo.length),
-      (this.width = cuboidTwo.width),
-      (this.height = cuboidTwo.height);
+  constructor(attributes) {
+    this.length = attributes.length;
+    this.width = attributes.width;
+    this.height = attributes.height;
+  }
+
+  volume() {
+    return this.length * this.width * this.height;
+  }
+
+  surfaceArea() {
+    return (
+      2 *
+      (this.length * this.width +
+        this.length * this.height +
+        this.height * this.width)
+    );
   }
 }
 
+const cuboidTwo = new CuboidMakerTwo({
+  length: 4,
+  width: 5,
+  height: 5,
+});
+
 //🦄🦄🦄 Test your volume and surfaceArea methods by uncommenting the logs below: 🦄🦄🦄
-// console.log(cuboidTwo.volume()); // 100
-// console.log(cuboidTwo.surfaceArea()); // 130
+console.log(cuboidTwo.volume()); // 100
+console.log(cuboidTwo.surfaceArea()); // 130
 
 // 🦄 💪 Stretch Task: Extend the base class CuboidMaker with a sub class called CubeMaker.  Find out the formulas for volume and surface area for cubes and create those methods using the dimension properties from CuboidMaker.  Test your work by logging out your volume and surface area. 🦄 💪
 
